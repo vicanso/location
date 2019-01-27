@@ -1,9 +1,11 @@
 package service
 
 import (
-	"errors"
+	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/vicanso/hes"
 )
 
 type (
@@ -17,8 +19,13 @@ type (
 )
 
 var (
+	errCategoryIPLocation = "ip-location"
 	// ErrIPAddressInvalid ip address invalid
-	ErrIPAddressInvalid = errors.New("ip address is invalid")
+	ErrIPAddressInvalid = &hes.Error{
+		Message:    "ip address is invalid",
+		Category:   errCategoryIPLocation,
+		StatusCode: http.StatusBadRequest,
+	}
 )
 
 func getDesc(index uint32) string {
@@ -68,9 +75,11 @@ func ConvertIP2Uint32(ip string) (value uint32, err error) {
 	offset := 8
 	max := 3
 	for index, item := range arr {
-		v, err := strconv.Atoi(item)
-		if err != nil {
-			return 0, err
+		v, e := strconv.Atoi(item)
+		if e != nil {
+			he := hes.New(e.Error())
+			he.Category = errCategoryIPLocation
+			return 0, he
 		}
 		if v < 0 || v > 255 {
 			err = ErrIPAddressInvalid
