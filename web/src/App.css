@@ -1,0 +1,44 @@
+.location {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.location-star {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  width: 110px;
+  height: 35px;
+  overflow: hidden;
+}
+
+.location-ip-search {
+  margin: 150px 0 60px 0;
+}
+
+.location-responder {
+  font-size: 14px;
+  width: 608px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+}
+
+.location-responder h4 {
+  line-height: 40px;
+  font-size: 16px;
+  text-indent: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.location-copy-right {
+  position: fixed;
+  bottom: 0;
+  font-size: 14px;
+  line-height: 40px;
+}

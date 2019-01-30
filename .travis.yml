@@ -7,3 +7,13 @@ go:
 
 script:
   - env GO111MODULE=on make test
+
+after_success:
+  - export VERSION=$(date -u +%Y%m%d%H%M%S)
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t location .
+  - docker tag location $DOCKER_USERNAME/location
+  - docker tag pike $DOCKER_USERNAME/location:$VERSION
+  - docker push $DOCKER_USERNAME/location
+  - docker push $DOCKER_USERNAME/location:$VERSION
+  - docker images

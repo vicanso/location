@@ -1,7 +1,9 @@
 package main
 
 import (
+	"net/http"
 	"os"
+	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -12,11 +14,40 @@ import (
 	"github.com/vicanso/location/router"
 )
 
-func main() {
+// 获取监听地址
+func getListen() string {
 	listen := os.Getenv("LISTEN")
 	if listen == "" {
 		listen = ":7001"
 	}
+	return listen
+}
+
+func check() {
+	listen := getListen()
+	url := ""
+	if listen[0] == ':' {
+		url = "http://127.0.0.1" + listen + "/ping"
+	} else {
+		url = "http://" + listen + "/ping"
+	}
+	client := http.Client{
+		Timeout: 3 * time.Second,
+	}
+	resp, err := client.Get(url)
+	if err != nil || resp == nil || resp.StatusCode != http.StatusOK {
+		os.Exit(1)
+		return
+	}
+	os.Exit(0)
+}
+
+func main() {
+	if len(os.Args) > 1 && os.Args[1] == "check" {
+		check()
+		return
+	}
+	listen := getListen()
 
 	c := zap.NewProductionConfig()
 	c.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
@@ -29,6 +60,8 @@ func main() {
 	d := cod.New()
 
 	d.Use(middleware.NewRecover())
+	d.Use(middleware.NewDefaultErrorHandler())
+
 	d.Use(middleware.NewStats(middleware.StatsConfig{
 		OnStats: func(statsInfo *middleware.StatsInfo, _ *cod.Context) {
 			logger.Info("access log",
@@ -41,7 +74,9 @@ func main() {
 		},
 	}))
 
-	d.Use(middleware.NewResponder(middleware.ResponderConfig{}))
+	d.Use(middleware.NewDefaultCompress())
+
+	d.Use(middleware.NewDefaultResponder())
 
 	// health check
 	d.GET("/ping", func(c *cod.Context) (err error) {

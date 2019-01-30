@@ -11,6 +11,7 @@ import (
 type (
 	// IPLocation ip location
 	IPLocation struct {
+		IP       string `json:"ip"`
 		Country  string `json:"country"`
 		Province string `json:"province"`
 		City     string `json:"city"`

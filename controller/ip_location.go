@@ -1,11 +1,6 @@
 package controller
 
 import (
-	"bytes"
-	"encoding/json"
-	"encoding/xml"
-	"errors"
-
 	"github.com/vicanso/cod"
 	"github.com/vicanso/location/router"
 	"github.com/vicanso/location/service"
@@ -23,7 +18,7 @@ var (
 func init() {
 	g := router.NewGroup("/ip-location")
 	ctrl := ipLocationCtrl{}
-	g.GET("/:type/:ip", ctrl.getLocation)
+	g.GET("/json/:ip", ctrl.getLocation)
 }
 
 func (ctrl ipLocationCtrl) getLocation(c *cod.Context) (err error) {
@@ -41,27 +36,7 @@ func (ctrl ipLocationCtrl) getLocation(c *cod.Context) (err error) {
 	if location == nil {
 		location = unknownIPLocation
 	}
-	switch c.Param("type") {
-	case "xml":
-		buf, err := xml.Marshal(location)
-		if err != nil {
-			return err
-		}
-		c.SetHeader(cod.HeaderContentType, "text/xml; charset=UTF-8")
-		c.BodyBuffer = bytes.NewBuffer(buf)
-	case "jsonp":
-		callback := c.QueryParam("callback")
-		if callback == "" {
-			return errors.New("callback can not be null")
-		}
-		buf, err := json.Marshal(location)
-		if err != nil {
-			return err
-		}
-		c.SetHeader(cod.HeaderContentType, "application/javascript; charset=UTF-8")
-		c.BodyBuffer = bytes.NewBufferString(callback + "(" + string(buf) + ")")
-	default:
-		c.Body = location
-	}
+	location.IP = ipAddr
+	c.Body = location
 	return
 }
