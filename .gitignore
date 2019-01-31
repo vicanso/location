@@ -1,6 +1,7 @@
 vendor
 tmp
 *.out
+*.log
 location
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.

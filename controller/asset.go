@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"bytes"
 	"os"
 
 	"github.com/gobuffalo/packr"
@@ -36,20 +37,35 @@ func init() {
 	g := router.NewGroup("")
 	ctrl := assetCtrl{}
 	g.GET("/", ctrl.index)
+	g.GET("/favicon.ico", ctrl.favIcon)
 
 	sf := &staticFile{
 		box: box,
 	}
-	g.GET("/static/*file", middleware.NewStaticServe(sf, middleware.StaticServeConfig{}))
+	g.GET("/static/*file", middleware.NewStaticServe(sf, middleware.StaticServeConfig{
+		// 客户端缓存一年
+		MaxAge: 365 * 24 * 3600,
+		// 缓存服务器缓存一个小时
+		SMaxAge:             60 * 60,
+		DenyQueryString:     true,
+		DisableLastModified: true,
+	}))
 }
 
-func (ctrl assetCtrl) index(c *cod.Context) (err error) {
-	file := "index.html"
-	html, err := box.Find(file)
+func sendFile(c *cod.Context, file string) (err error) {
+	buf, err := box.Find(file)
 	if err != nil {
 		return
 	}
 	c.SetFileContentType(file)
-	c.Body = html
+	c.BodyBuffer = bytes.NewBuffer(buf)
 	return
+}
+
+func (ctrl assetCtrl) index(c *cod.Context) (err error) {
+	return sendFile(c, "index.html")
+}
+
+func (ctrl assetCtrl) favIcon(c *cod.Context) (err error) {
+	return sendFile(c, "images/favicon.ico")
 }

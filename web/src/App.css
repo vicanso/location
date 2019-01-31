@@ -18,7 +18,12 @@
 }
 
 .location-ip-search {
-  margin: 150px 0 60px 0;
+  margin-top: 150px;
+}
+
+.location-curl {
+  font-size: 18px;
+  margin: 30px auto;
 }
 
 .location-responder {

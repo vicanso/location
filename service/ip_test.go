@@ -56,6 +56,22 @@ func TestGetLocationByIP(t *testing.T) {
 			t.Fatalf("get location fail")
 		}
 	})
+
+	t.Run("first ip", func(t *testing.T) {
+		info := fn(t, "0.0.0.0")
+		if info.ISP != "内网IP" {
+			t.Fatalf("get the first location fail")
+		}
+	})
+	t.Run("last ip", func(t *testing.T) {
+		info := fn(t, "1.3.255.255")
+		if info.Country != "中国" ||
+			info.Province != "广东省" ||
+			info.City != "广州市" ||
+			info.ISP != "电信" {
+			t.Fatalf("get location fail")
+		}
+	})
 }
 
 func BenchmarkConvertIP2Uint32(b *testing.B) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
 	"time"
@@ -12,6 +13,10 @@ import (
 	"github.com/vicanso/cod/middleware"
 	_ "github.com/vicanso/location/controller"
 	"github.com/vicanso/location/router"
+)
+
+var (
+	runMode string
 )
 
 // 获取监听地址
@@ -43,7 +48,11 @@ func check() {
 }
 
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "check" {
+
+	flag.StringVar(&runMode, "mode", "", "running mode")
+	flag.Parse()
+
+	if runMode == "check" {
 		check()
 		return
 	}
@@ -60,7 +69,6 @@ func main() {
 	d := cod.New()
 
 	d.Use(middleware.NewRecover())
-	d.Use(middleware.NewDefaultErrorHandler())
 
 	d.Use(middleware.NewStats(middleware.StatsConfig{
 		OnStats: func(statsInfo *middleware.StatsInfo, _ *cod.Context) {
@@ -74,7 +82,12 @@ func main() {
 		},
 	}))
 
-	d.Use(middleware.NewDefaultCompress())
+	d.Use(middleware.NewDefaultErrorHandler())
+
+	// 因为有使用pike做缓存（已包括ETag fresh compress的处理），无需要添加此类中间件
+	// d.Use(middleware.NewDefaultFresh())
+	// d.Use(middleware.NewDefaultETag())
+	// d.Use(middleware.NewDefaultCompress())
 
 	d.Use(middleware.NewDefaultResponder())
 

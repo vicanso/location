@@ -8,9 +8,11 @@ RUN apk update \
 
 FROM alpine
 
+EXPOSE 7001
+
 COPY --from=builder /location/location /usr/local/bin/location
 
 CMD ["location"]
 
 HEALTHCHECK --interval=10s --timeout=3s \
-  CMD location check || exit 1
+  CMD location --mode=check || exit 1

@@ -57,6 +57,11 @@ class CustomizedInputBase extends Component {
           className={classes.input}
           placeholder="Input you ip address"
           value={this.state.ip}
+          onKeyUp={(e) => {
+            if (e.keyCode === 0x0d) {
+              this.onSearch()
+            }
+          }}
           onChange={(e) => this.setState({ip: e.target.value})}
         />
         <IconButton
@@ -122,17 +127,24 @@ class App extends Component {
       //   "city": "",
       //   "isp": "TOT"
       // };
-      const curl = `// curl "https://ip.aslant.site/ip-location/json/${data.ip}\n`;
+      const curl = `// curl "https://ip.aslant.site/ip-location/json/${data.ip}"\n\n`;
       const content = JSON.stringify(data, null, 2);
       doc.setValue(curl + content);
     } catch (err) {
-      doc.setValue(`// Get location by ip fail, ${err.message}`);
+      let {
+        message,
+        response,
+      } = err;
+      if (response && response.data && response.data.message) {
+        message = response.data.message
+      }
+      doc.setValue(`// Get location by ip fail, ${message}`);
     }
   }
   render() {
     const iframe = (
       //           eslint-disable-next-line
-      <iframe src="https://ghbtns.com/github-btn.html?user=vicanso&repo=location&type=star&count=true&size=large" frameborder="0" scrolling="0"></iframe>
+      <iframe src="https://ghbtns.com/github-btn.html?user=vicanso&repo=location&type=star&count=true&size=large" frameBorder="0" scrolling="0"></iframe>
     )
     return (
       <div className="location">
@@ -148,6 +160,9 @@ class App extends Component {
             onSearch={(ip) => this.doSearch(ip)}
           />
         </div>
+        <p
+          className="location-curl"
+        >curl "https://ip.aslant.site/ip-location/json/8.8.8.8"</p>
         <div
           className="location-responder">
           <h4>IP定位信息</h4>
