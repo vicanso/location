@@ -17,12 +17,20 @@ import 'codemirror/mode/javascript/javascript.js';
 
 import './App.css';
 
+
+let searchWidth = 600;
+const searchPadding = 20;
+// 如果获取到浏览器大小
+if (window.innerWidth && (window.innerWidth - searchPadding) < searchWidth) {
+  searchWidth = window.innerWidth - searchPadding;
+}
+
 const styles = {
   root: {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    width: 600,
+    width: searchWidth,
   },
   input: {
     marginLeft: 8,
@@ -104,6 +112,7 @@ class App extends Component {
       theme: 'elegant',
       mode: 'javascript',
       readOnly: true, 
+      lineWrapping: true,
     });
     // 获取当前客户端的定位
     this.doSearch('127.0.0.1');
