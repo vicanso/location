@@ -15,3 +15,11 @@ curl 'http://127.0.0.1:7001/ip-location/json/1.0.132.192'
 ```bash
 docker run -d -p 7001:7001 vicanso/location
 ```
+
+## build-web
+
+make build-web
+
+## build
+
+make build
