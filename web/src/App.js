@@ -155,6 +155,12 @@ class App extends Component {
       //           eslint-disable-next-line
       <iframe src="https://ghbtns.com/github-btn.html?user=vicanso&repo=location&type=star&count=true&size=large" frameBorder="0" scrolling="0"></iframe>
     )
+    const startYear = 2019;
+    const currentDate = new Date();
+    let copyRightDate = `${startYear}`;
+    if (currentDate.getFullYear() !== startYear) {
+      copyRightDate += ` - ${currentDate.getFullYear()}`;
+    }
     return (
       <div className="location">
         <div
@@ -174,14 +180,14 @@ class App extends Component {
         >curl "https://ip.aslant.site/ip-location/json/8.8.8.8"</p>
         <div
           className="location-responder">
-          <h4>IP定位信息</h4>
+          <h4>IP Location</h4>
           <textarea
             ref={this.locationResponder}
           ></textarea>
         </div>
         <div
           className="location-copy-right"
-        >&copy; 2019 Tree Xie</div>
+        >&copy; {copyRightDate} Tree Xie</div>
       </div>
     );
   }
