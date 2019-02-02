@@ -28,6 +28,7 @@
 
 .location-responder {
   font-size: 14px;
+  width: 100%;
   max-width: 608px;
   border: 2px solid #fff;
   border-radius: 4px;
