@@ -16,7 +16,7 @@ var (
 )
 
 func init() {
-	g := router.NewGroup("/ip-location")
+	g := router.NewGroup("/ip-locations")
 	ctrl := ipLocationCtrl{}
 	g.GET("/json/:ip", ctrl.getLocation)
 }

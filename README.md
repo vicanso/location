@@ -7,7 +7,7 @@ Get the location by ip address. IP data comes from [ip2region](https://github.co
 
 
 ```bash
-curl 'http://127.0.0.1:7001/ip-location/json/1.0.132.192'
+curl 'http://127.0.0.1:7001/ip-locations/json/1.0.132.192'
 ```
 
 ## start

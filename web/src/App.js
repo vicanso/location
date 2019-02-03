@@ -128,7 +128,7 @@ class App extends Component {
     try {
       const {
         data,
-      } = await axios.get(`/ip-location/json/${ip}`);
+      } = await axios.get(`/ip-locations/json/${ip}`);
       // const data = {
       //   "ip": "1.0.132.192",
       //   "country": "泰国",
@@ -136,7 +136,7 @@ class App extends Component {
       //   "city": "",
       //   "isp": "TOT"
       // };
-      const curl = `// curl "https://ip.aslant.site/ip-location/json/${data.ip}"\n\n`;
+      const curl = `// curl "https://ip.aslant.site/ip-locations/json/${data.ip}"\n\n`;
       const content = JSON.stringify(data, null, 2);
       doc.setValue(curl + content);
     } catch (err) {
@@ -177,7 +177,7 @@ class App extends Component {
         </div>
         <p
           className="location-curl"
-        >curl "https://ip.aslant.site/ip-location/json/8.8.8.8"</p>
+        >curl "https://ip.aslant.site/ip-locations/json/8.8.8.8"</p>
         <div
           className="location-responder">
           <h4>IP Location</h4>

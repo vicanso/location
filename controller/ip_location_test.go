@@ -11,7 +11,7 @@ import (
 func TestGetLocation(t *testing.T) {
 	ctrl := ipLocationCtrl{}
 	t.Run("get client location", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/ip-location/json/127.0.0.1", nil)
+		req := httptest.NewRequest("GET", "/ip-locations/json/127.0.0.1", nil)
 		req.Header.Set(cod.HeaderXForwardedFor, "1.2.7.255")
 		resp := httptest.NewRecorder()
 		c := cod.NewContext(resp, req)
@@ -29,7 +29,7 @@ func TestGetLocation(t *testing.T) {
 	})
 
 	t.Run("get unknown ip", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/ip-location/json/192.168.1.1", nil)
+		req := httptest.NewRequest("GET", "/ip-locations/json/192.168.1.1", nil)
 		resp := httptest.NewRecorder()
 		c := cod.NewContext(resp, req)
 		c.Params = map[string]string{
