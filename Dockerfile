@@ -3,7 +3,7 @@ FROM node:10-alpine as webbuilder
 RUN apk update \
   && apk add git \
   && git clone --depth=1 https://github.com/vicanso/location.git /location \
-  && cd \location\web \
+  && cd /location/web \
   && npm i \
   && npm run build
 
