@@ -7,13 +7,11 @@ RUN git clone --depth=1 https://github.com/vicanso/location.git /location \
 
 FROM golang:1.11-alpine as builder
 
+COPY --from=webbuilder /location /location
+
 RUN apk update \
   && apk add git make gcc \
-  && git clone --depth=1 https://github.com/vicanso/location.git /location 
-
-COPY --from=webbuilder /location/web/build /location/web/build
-
-RUN go get -u github.com/gobuffalo/packr/v2/packr2 \
+  && go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
   && packr2 \
   && make build
