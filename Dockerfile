@@ -1,9 +1,21 @@
+FROM node:10-alpine as webbuilder
+
+RUN git clone --depth=1 https://github.com/vicanso/location.git /location \
+  && cd \location \
+  && npm i \
+  && npm run build
+
 FROM golang:1.11-alpine as builder
 
 RUN apk update \
   && apk add git make gcc \
-  && git clone --depth=1 https://github.com/vicanso/location.git /location \
+  && git clone --depth=1 https://github.com/vicanso/location.git /location 
+
+COPY --from=webbuilder /location/web/build /location/web/build
+
+RUN go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
+  && packr2 \
   && make build
 
 FROM alpine

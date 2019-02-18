@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"os"
 
-	"github.com/gobuffalo/packr"
+	packr "github.com/gobuffalo/packr/v2"
 	"github.com/vicanso/cod"
 	"github.com/vicanso/cod/middleware"
 	"github.com/vicanso/location/router"
@@ -15,12 +15,12 @@ type (
 	assetCtrl struct {
 	}
 	staticFile struct {
-		box packr.Box
+		box *packr.Box
 	}
 )
 
 var (
-	box = packr.NewBox("../web/build")
+	box = packr.New("asset", "../web/build")
 )
 
 func (sf *staticFile) Exists(file string) bool {

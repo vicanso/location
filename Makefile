@@ -15,7 +15,7 @@ build-web:
 	cd web \
 		&& npm run build \
 		&& cd .. \
-		&& packr -z
+		&& packr2
 
 bench:
 	go test -bench=. ./...
