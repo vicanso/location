@@ -13,7 +13,7 @@ FROM golang:1.11-alpine as builder
 COPY --from=webbuilder /location /location
 
 RUN apk update \
-  && apk git add make \
+  && apk add git make gcc \
   && go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
   && packr2 \
