@@ -5,14 +5,15 @@ RUN apk update \
   && git clone --depth=1 https://github.com/vicanso/location.git /location \
   && cd /location/web \
   && npm i \
-  && npm run build
+  && npm run build \
+  && rm -rf node_modules
 
 FROM golang:1.11-alpine as builder
 
 COPY --from=webbuilder /location /location
 
 RUN apk update \
-  && apk add make \
+  && apk git add make \
   && go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
   && packr2 \
