@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"os"
 
-	packr "github.com/gobuffalo/packr/v2"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/vicanso/cod"
 	"github.com/vicanso/cod/middleware"
 	"github.com/vicanso/location/router"
@@ -57,7 +57,7 @@ func sendFile(c *cod.Context, file string) (err error) {
 	if err != nil {
 		return
 	}
-	c.SetFileContentType(file)
+	c.SetContentTypeByExt(file)
 	c.BodyBuffer = bytes.NewBuffer(buf)
 	return
 }

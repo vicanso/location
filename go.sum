@@ -331,8 +331,8 @@ github.com/tidwall/match v1.0.1/go.mod h1:LujAq0jyVjBy028G1WhWfIzbpQfMO8bBZ6Tyb0
 github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8/go.mod h1:VFNgLljTbGfSG7qAOspJ7OScBnGdDN/yBr0sguwnwf0=
 github.com/unrolled/secure v0.0.0-20180918153822-f340ee86eb8b/go.mod h1:mnPT77IAdsi/kV7+Es7y+pXALeV3h7G6dQF6mNYjcLA=
 github.com/unrolled/secure v0.0.0-20181005190816-ff9db2ff917f/go.mod h1:mnPT77IAdsi/kV7+Es7y+pXALeV3h7G6dQF6mNYjcLA=
-github.com/vicanso/cod v0.0.0-20190215134953-28900cdbd748 h1:mwi0oDF0TeuQY5FekfG+zQvFg+Se/77AI7XY85Q5Aso=
-github.com/vicanso/cod v0.0.0-20190215134953-28900cdbd748/go.mod h1:rT7/7/1miipLx9bQSj3OQs3Lwi/8+XtkAmXQHtfMWLY=
+github.com/vicanso/cod v0.0.0-20190218140130-5b1fb8230774 h1:7QGNVzuJKRRMaHv7BKuU1JXUsxPggKrNqpFvlalrwho=
+github.com/vicanso/cod v0.0.0-20190218140130-5b1fb8230774/go.mod h1:rT7/7/1miipLx9bQSj3OQs3Lwi/8+XtkAmXQHtfMWLY=
 github.com/vicanso/fresh v0.1.1 h1:L3UX/g2uZ4pNFzjc7+PyeYOlIAs2/yUfhcFnK7E+JQU=
 github.com/vicanso/fresh v0.1.1/go.mod h1:gr1RKSFxQ1OnQHzUMBHCigifni7KrXveJjWCTlPjICA=
 github.com/vicanso/hes v0.1.3 h1:3txPJL+J+xBRhIotkK3XKNbmBz+JXJ1knmGM0L+Qe4k=

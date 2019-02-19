@@ -1,3 +1,5 @@
+export GO111MODULE = on
+
 .PHONY: default test test-cover dev
 
 # for dev
@@ -13,9 +15,8 @@ test-cover:
 
 build-web:
 	cd web \
-		&& npm run build \
-		&& cd .. \
-		&& packr2
+		&& npm i \
+		&& npm run build
 
 bench:
 	go test -bench=. ./...
@@ -24,4 +25,8 @@ build-test:
 	go run tool/main.go -max 200
 
 build:
+	packr2
 	CGO_ENABLED=0 go run tool/main.go && go build -tags netgo -o location
+
+clean:
+	packr2 clean

@@ -16,7 +16,6 @@ RUN apk update \
   && apk add git make gcc \
   && go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
-  && packr2 \
   && make build
 
 FROM alpine
