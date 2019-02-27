@@ -30,3 +30,6 @@ build:
 
 clean:
 	packr2 clean
+
+release:
+	go mod tidy

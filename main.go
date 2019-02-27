@@ -10,9 +10,16 @@ import (
 	"go.uber.org/zap/zapcore"
 
 	"github.com/vicanso/cod"
-	"github.com/vicanso/cod/middleware"
 	_ "github.com/vicanso/location/controller"
 	"github.com/vicanso/location/router"
+
+	compress "github.com/vicanso/cod-compress"
+	errorHandler "github.com/vicanso/cod-error-handler"
+	etag "github.com/vicanso/cod-etag"
+	fresh "github.com/vicanso/cod-fresh"
+	recover "github.com/vicanso/cod-recover"
+	responder "github.com/vicanso/cod-responder"
+	stats "github.com/vicanso/cod-stats"
 )
 
 var (
@@ -68,10 +75,10 @@ func main() {
 
 	d := cod.New()
 
-	d.Use(middleware.NewRecover())
+	d.Use(recover.New())
 
-	d.Use(middleware.NewStats(middleware.StatsConfig{
-		OnStats: func(statsInfo *middleware.StatsInfo, _ *cod.Context) {
+	d.Use(stats.New(stats.Config{
+		OnStats: func(statsInfo *stats.Info, _ *cod.Context) {
 			logger.Info("access log",
 				zap.String("ip", statsInfo.IP),
 				zap.String("method", statsInfo.Method),
@@ -82,18 +89,18 @@ func main() {
 		},
 	}))
 
-	d.Use(middleware.NewDefaultErrorHandler())
+	d.Use(errorHandler.NewDefault())
 
 	d.Use(func(c *cod.Context) error {
 		c.NoCache()
 		return c.Next()
 	})
 
-	d.Use(middleware.NewDefaultFresh())
-	d.Use(middleware.NewDefaultETag())
-	d.Use(middleware.NewDefaultCompress())
+	d.Use(fresh.NewDefault())
+	d.Use(etag.NewDefault())
+	d.Use(compress.NewDefault())
 
-	d.Use(middleware.NewDefaultResponder())
+	d.Use(responder.NewDefault())
 
 	// health check
 	d.GET("/ping", func(c *cod.Context) (err error) {
