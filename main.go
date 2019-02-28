@@ -13,6 +13,8 @@ import (
 	_ "github.com/vicanso/location/controller"
 	"github.com/vicanso/location/router"
 
+	humanize "github.com/dustin/go-humanize"
+
 	compress "github.com/vicanso/cod-compress"
 	errorHandler "github.com/vicanso/cod-error-handler"
 	etag "github.com/vicanso/cod-etag"
@@ -75,6 +77,13 @@ func main() {
 
 	d := cod.New()
 
+	d.OnError(func(c *cod.Context, err error) {
+		logger.DPanic("unexpected error",
+			zap.String("uri", c.Request.RequestURI),
+			zap.Error(err),
+		)
+	})
+
 	d.Use(recover.New())
 
 	d.Use(stats.New(stats.Config{
@@ -85,6 +94,7 @@ func main() {
 				zap.String("uri", statsInfo.URI),
 				zap.Int("status", statsInfo.Status),
 				zap.String("consuming", statsInfo.Consuming.String()),
+				zap.String("size", humanize.Bytes(uint64(statsInfo.Size))),
 			)
 		},
 	}))
