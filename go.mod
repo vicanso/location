@@ -7,7 +7,7 @@ require (
 	github.com/gobuffalo/packr/v2 v2.0.3
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/vicanso/cod v0.0.2
-	github.com/vicanso/cod-compress v0.0.0-20190227131322-d7d9a4511de1
+	github.com/vicanso/cod-compress v0.0.1
 	github.com/vicanso/cod-error-handler v0.0.1
 	github.com/vicanso/cod-etag v0.0.1
 	github.com/vicanso/cod-fresh v0.0.1
