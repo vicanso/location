@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bytes"
+	"io"
 	"os"
 
 	"github.com/gobuffalo/packr/v2"
@@ -33,6 +34,13 @@ func (sf *staticFile) Get(file string) ([]byte, error) {
 func (sf *staticFile) Stat(file string) os.FileInfo {
 	return nil
 }
+func (sf *staticFile) NewReader(file string) (io.Reader, error) {
+	buf, err := sf.Get(file)
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(buf), nil
+}
 
 func init() {
 	g := router.NewGroup("")
@@ -51,6 +59,7 @@ func init() {
 		SMaxAge:             60 * 60,
 		DenyQueryString:     true,
 		DisableLastModified: true,
+		EnableStrongETag:    true,
 	}))
 }
 
