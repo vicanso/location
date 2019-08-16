@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/vicanso/cod"
+	"github.com/vicanso/elton"
 	"github.com/vicanso/location/router"
 	"github.com/vicanso/location/service"
 )
@@ -21,7 +21,7 @@ func init() {
 	g.GET("/json/:ip", ctrl.getLocation)
 }
 
-func (ctrl ipLocationCtrl) getLocation(c *cod.Context) (err error) {
+func (ctrl ipLocationCtrl) getLocation(c *elton.Context) (err error) {
 	c.NoCache()
 	ipAddr := c.Param("ip")
 	// 如果为此地址，则使用客户端IP

@@ -6,10 +6,10 @@ import (
 	"os"
 
 	"github.com/gobuffalo/packr/v2"
-	"github.com/vicanso/cod"
+	"github.com/vicanso/elton"
 	"github.com/vicanso/location/router"
 
-	staticServe "github.com/vicanso/cod-static-serve"
+	staticServe "github.com/vicanso/elton-static-serve"
 )
 
 type (
@@ -63,7 +63,7 @@ func init() {
 	}))
 }
 
-func sendFile(c *cod.Context, file string) (err error) {
+func sendFile(c *elton.Context, file string) (err error) {
 	buf, err := box.Find(file)
 	if err != nil {
 		return
@@ -73,12 +73,12 @@ func sendFile(c *cod.Context, file string) (err error) {
 	return
 }
 
-func (ctrl assetCtrl) index(c *cod.Context) (err error) {
+func (ctrl assetCtrl) index(c *elton.Context) (err error) {
 	c.CacheMaxAge("10s")
 	return sendFile(c, "index.html")
 }
 
-func (ctrl assetCtrl) favIcon(c *cod.Context) (err error) {
+func (ctrl assetCtrl) favIcon(c *elton.Context) (err error) {
 	c.CacheMaxAge("10m")
 	return sendFile(c, "images/favicon.ico")
 }

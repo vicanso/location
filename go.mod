@@ -5,16 +5,16 @@ go 1.12
 require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gobuffalo/packr/v2 v2.5.2
-	github.com/vicanso/cod v0.1.4
-	github.com/vicanso/cod-compress v0.0.7
-	github.com/vicanso/cod-error-handler v0.0.4
-	github.com/vicanso/cod-etag v0.0.3
-	github.com/vicanso/cod-fresh v0.0.3
-	github.com/vicanso/cod-recover v0.0.4
-	github.com/vicanso/cod-responder v0.0.5
-	github.com/vicanso/cod-static-serve v0.0.4
-	github.com/vicanso/cod-stats v0.0.3
-	github.com/vicanso/hes v0.1.4
+	github.com/vicanso/elton v0.2.0
+	github.com/vicanso/elton-compress v0.1.0
+	github.com/vicanso/elton-error-handler v0.1.0
+	github.com/vicanso/elton-etag v0.1.0
+	github.com/vicanso/elton-fresh v0.1.0
+	github.com/vicanso/elton-recover v0.1.0
+	github.com/vicanso/elton-responder v0.1.0
+	github.com/vicanso/elton-static-serve v0.1.0
+	github.com/vicanso/elton-stats v0.1.0
+	github.com/vicanso/hes v0.2.1
 	go.uber.org/atomic v1.4.0 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.10.0
