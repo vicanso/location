@@ -8,12 +8,12 @@ RUN apk update \
   && npm run build \
   && rm -rf node_modules
 
-FROM golang:1.12-alpine as builder
+FROM golang:1.13-alpine as builder
 
 COPY --from=webbuilder /location /location
 
 RUN apk update \
-  && apk add git make gcc \
+  && apk add git make \
   && go get -u github.com/gobuffalo/packr/v2/packr2 \
   && cd /location \
   && make build
@@ -22,9 +22,16 @@ FROM alpine
 
 EXPOSE 7001
 
+RUN addgroup -g 1000 go \
+  && adduser -u 1000 -G go -s /bin/sh -D go \
+  && apk add --no-cache ca-certificates
+
 COPY --from=builder /location/location /usr/local/bin/location
 
-CMD ["location"]
+USER go
 
-HEALTHCHECK --interval=10s --timeout=3s \
-  CMD location --mode=check || exit 1
+WORKDIR /home/go
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 CMD [ "wget", "http://127.0.0.1:7001/ping", "-q", "-O", "-"]
+
+CMD ["location"]

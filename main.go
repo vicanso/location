@@ -1,10 +1,7 @@
 package main
 
 import (
-	"flag"
-	"net/http"
 	"os"
-	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -37,34 +34,7 @@ func getListen() string {
 	return listen
 }
 
-func check() {
-	listen := getListen()
-	url := ""
-	if listen[0] == ':' {
-		url = "http://127.0.0.1" + listen + "/ping"
-	} else {
-		url = "http://" + listen + "/ping"
-	}
-	client := http.Client{
-		Timeout: 3 * time.Second,
-	}
-	resp, err := client.Get(url)
-	if err != nil || resp == nil || resp.StatusCode != http.StatusOK {
-		os.Exit(1)
-		return
-	}
-	os.Exit(0)
-}
-
 func main() {
-
-	flag.StringVar(&runMode, "mode", "", "running mode")
-	flag.Parse()
-
-	if runMode == "check" {
-		check()
-		return
-	}
 	listen := getListen()
 
 	c := zap.NewProductionConfig()
