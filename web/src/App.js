@@ -70,7 +70,7 @@ class CustomizedInputBase extends Component {
               this.onSearch()
             }
           }}
-          onChange={(e) => this.setState({ip: e.target.value})}
+          onChange={(e) => this.setState({ ip: e.target.value })}
         />
         <IconButton
           className={classes.iconButton}
@@ -106,16 +106,30 @@ const IPLocationSearch = withStyles(styles)(CustomizedInputBase);
 class App extends Component {
   locationResponder = React.createRef()
   locationResponderEditor = null
+  state = {
+    ipLocationCount: null,
+  }
   componentDidMount() {
     this.locationResponderEditor = CodeMirror.fromTextArea(this.locationResponder.current, {
       lineNumbers: true,
       theme: 'elegant',
       mode: 'javascript',
-      readOnly: true, 
+      readOnly: true,
       lineWrapping: true,
     });
     // 获取当前客户端的定位
     this.doSearch('127.0.0.1');
+    this.getIPLocationCount();
+  }
+  async getIPLocationCount() {
+    try {
+      const res = await axios.get("/ip-locations/count");
+      this.setState({
+        ipLocationCount: res.data.count,
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
   async doSearch(ip) {
     if (!ip) {
@@ -151,10 +165,14 @@ class App extends Component {
     }
   }
   render() {
+    const {
+      ipLocationCount,
+    } = this.state;
     const iframe = (
       //           eslint-disable-next-line
       <iframe src="https://ghbtns.com/github-btn.html?user=vicanso&repo=location&type=star&count=true&size=large" frameBorder="0" scrolling="0"></iframe>
     )
+    console.dir(ipLocationCount);
     const startYear = 2019;
     const currentDate = new Date();
     let copyRightDate = `${startYear}`;
@@ -185,6 +203,7 @@ class App extends Component {
             ref={this.locationResponder}
           ></textarea>
         </div>
+        <p className="location-records">There are <span>{ipLocationCount || "??"}</span> ip location records.</p>
         <div
           className="location-copy-right"
         >&copy; {copyRightDate} Tree Xie</div>

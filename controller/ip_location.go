@@ -19,6 +19,8 @@ func init() {
 	g := router.NewGroup("/ip-locations")
 	ctrl := ipLocationCtrl{}
 	g.GET("/json/:ip", ctrl.getLocation)
+
+	g.GET("/count", ctrl.count)
 }
 
 func (ctrl ipLocationCtrl) getLocation(c *elton.Context) (err error) {
@@ -38,5 +40,14 @@ func (ctrl ipLocationCtrl) getLocation(c *elton.Context) (err error) {
 	}
 	location.IP = ipAddr
 	c.Body = location
+	return
+}
+
+func (ctrl ipLocationCtrl) count(c *elton.Context) (err error) {
+	c.Body = &struct {
+		Count int `json:"count,omitempty"`
+	}{
+		service.IPCount,
+	}
 	return
 }

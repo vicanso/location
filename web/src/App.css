@@ -42,6 +42,15 @@
   padding: 0;
 }
 
+.location-records {
+  font-size: 18px;
+}
+
+.location-records span {
+  margin: 0 2px;
+  font-weight: 900;
+}
+
 .location-copy-right {
   position: fixed;
   bottom: 0;
