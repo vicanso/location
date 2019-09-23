@@ -107,7 +107,7 @@ class App extends Component {
   locationResponder = React.createRef()
   locationResponderEditor = null
   state = {
-    ipLocationCount: null,
+    ipLocationCount: '',
   }
   componentDidMount() {
     this.locationResponderEditor = CodeMirror.fromTextArea(this.locationResponder.current, {
@@ -125,7 +125,7 @@ class App extends Component {
     try {
       const res = await axios.get("/ip-locations/count");
       this.setState({
-        ipLocationCount: res.data.count,
+        ipLocationCount: res.data.count.toLocaleString(),
       });
     } catch (err) {
       console.error(err);
@@ -172,7 +172,6 @@ class App extends Component {
       //           eslint-disable-next-line
       <iframe src="https://ghbtns.com/github-btn.html?user=vicanso&repo=location&type=star&count=true&size=large" frameBorder="0" scrolling="0"></iframe>
     )
-    console.dir(ipLocationCount);
     const startYear = 2019;
     const currentDate = new Date();
     let copyRightDate = `${startYear}`;
