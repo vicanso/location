@@ -15,9 +15,8 @@ func TestGetLocation(t *testing.T) {
 		req.Header.Set(elton.HeaderXForwardedFor, "1.2.7.255")
 		resp := httptest.NewRecorder()
 		c := elton.NewContext(resp, req)
-		c.Params = map[string]string{
-			"ip": "127.0.0.1",
-		}
+		c.Params = new(elton.RouteParams)
+		c.Params.Add("ip", "127.0.0.1")
 		err := ctrl.getLocation(c)
 		if err != nil {
 			t.Fatalf("get client location fail, %v", err)
@@ -32,9 +31,8 @@ func TestGetLocation(t *testing.T) {
 		req := httptest.NewRequest("GET", "/ip-locations/json/192.168.1.1", nil)
 		resp := httptest.NewRecorder()
 		c := elton.NewContext(resp, req)
-		c.Params = map[string]string{
-			"ip": "192.168.1.1",
-		}
+		c.Params = new(elton.RouteParams)
+		c.Params.Add("ip", "192.168.1.1")
 		err := ctrl.getLocation(c)
 		if err != nil {
 			t.Fatalf("get client location fail, %v", err)
