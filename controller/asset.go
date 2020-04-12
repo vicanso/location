@@ -7,9 +7,8 @@ import (
 
 	"github.com/gobuffalo/packr/v2"
 	"github.com/vicanso/elton"
+	"github.com/vicanso/elton/middleware"
 	"github.com/vicanso/location/router"
-
-	staticServe "github.com/vicanso/elton-static-serve"
 )
 
 type (
@@ -51,7 +50,7 @@ func init() {
 	sf := &staticFile{
 		box: box,
 	}
-	g.GET("/static/*file", staticServe.New(sf, staticServe.Config{
+	g.GET("/static/*", middleware.NewStaticServe(sf, middleware.StaticServeConfig{
 		Path: "/static",
 		// 客户端缓存一年
 		MaxAge: 365 * 24 * 3600,

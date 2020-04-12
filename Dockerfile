@@ -8,7 +8,7 @@ RUN apk update \
   && npm run build \
   && rm -rf node_modules
 
-FROM golang:1.13-alpine as builder
+FROM golang:1.14-alpine as builder
 
 COPY --from=webbuilder /location /location
 

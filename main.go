@@ -7,18 +7,11 @@ import (
 	"go.uber.org/zap/zapcore"
 
 	"github.com/vicanso/elton"
+	"github.com/vicanso/elton/middleware"
 	_ "github.com/vicanso/location/controller"
 	"github.com/vicanso/location/router"
 
 	humanize "github.com/dustin/go-humanize"
-
-	compress "github.com/vicanso/elton-compress"
-	errorHandler "github.com/vicanso/elton-error-handler"
-	etag "github.com/vicanso/elton-etag"
-	fresh "github.com/vicanso/elton-fresh"
-	recover "github.com/vicanso/elton-recover"
-	responder "github.com/vicanso/elton-responder"
-	stats "github.com/vicanso/elton-stats"
 )
 
 var (
@@ -54,10 +47,10 @@ func main() {
 		)
 	})
 
-	d.Use(recover.New())
+	d.Use(middleware.NewRecover())
 
-	d.Use(stats.New(stats.Config{
-		OnStats: func(statsInfo *stats.Info, _ *elton.Context) {
+	d.Use(middleware.NewStats(middleware.StatsConfig{
+		OnStats: func(statsInfo *middleware.StatsInfo, _ *elton.Context) {
 			logger.Info("access log",
 				zap.String("ip", statsInfo.IP),
 				zap.String("method", statsInfo.Method),
@@ -69,18 +62,17 @@ func main() {
 		},
 	}))
 
-	d.Use(errorHandler.NewDefault())
+	d.Use(middleware.NewDefaultError())
 
 	d.Use(func(c *elton.Context) error {
 		c.NoCache()
 		return c.Next()
 	})
 
-	d.Use(fresh.NewDefault())
-	d.Use(etag.NewDefault())
-	d.Use(compress.NewDefault())
+	d.Use(middleware.NewDefaultFresh())
+	d.Use(middleware.NewDefaultETag())
 
-	d.Use(responder.NewDefault())
+	d.Use(middleware.NewDefaultResponder())
 
 	// health check
 	d.GET("/ping", func(c *elton.Context) (err error) {
