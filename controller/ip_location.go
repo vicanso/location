@@ -18,7 +18,7 @@ var (
 func init() {
 	g := router.NewGroup("/ip-locations")
 	ctrl := ipLocationCtrl{}
-	g.GET("/json/:ip", ctrl.getLocation)
+	g.GET("/json/{ip}", ctrl.getLocation)
 
 	g.GET("/count", ctrl.count)
 }
