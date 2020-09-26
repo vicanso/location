@@ -150,7 +150,7 @@ class App extends Component {
       //   "city": "",
       //   "isp": "TOT"
       // };
-      const curl = `// curl "https://ip.aslant.site/ip-locations/json/${data.ip}"\n\n`;
+      const curl = `// curl "${location.origin}/ip-locations/json/${data.ip}"\n\n`;
       const content = JSON.stringify(data, null, 2);
       doc.setValue(curl + content);
     } catch (err) {
