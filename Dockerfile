@@ -1,14 +1,14 @@
-FROM node:10-alpine as webbuilder
+FROM node:12-alpine as webbuilder
 
+COPY . /location
 RUN apk update \
   && apk add git \
-  && git clone --depth=1 https://github.com/vicanso/location.git /location \
   && cd /location/web \
   && npm i \
   && npm run build \
   && rm -rf node_modules
 
-FROM golang:1.14-alpine as builder
+FROM golang:1.15-alpine as builder
 
 COPY --from=webbuilder /location /location
 
