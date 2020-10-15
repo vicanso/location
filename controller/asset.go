@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"os"
+	"time"
 
 	"github.com/gobuffalo/packr/v2"
 	"github.com/vicanso/elton"
@@ -53,9 +54,9 @@ func init() {
 	g.GET("/static/*", middleware.NewStaticServe(sf, middleware.StaticServeConfig{
 		Path: "/static",
 		// 客户端缓存一年
-		MaxAge: 365 * 24 * 3600,
+		MaxAge: 365 * 24 * time.Hour,
 		// 缓存服务器缓存一个小时
-		SMaxAge:             60 * 60,
+		SMaxAge:             time.Hour,
 		DenyQueryString:     true,
 		DisableLastModified: true,
 		EnableStrongETag:    true,
@@ -73,11 +74,11 @@ func sendFile(c *elton.Context, file string) (err error) {
 }
 
 func (ctrl assetCtrl) index(c *elton.Context) (err error) {
-	c.CacheMaxAge("10s")
+	c.CacheMaxAge(10 * time.Second)
 	return sendFile(c, "index.html")
 }
 
 func (ctrl assetCtrl) favIcon(c *elton.Context) (err error) {
-	c.CacheMaxAge("10m")
+	c.CacheMaxAge(10 * time.Minute)
 	return sendFile(c, "images/favicon.ico")
 }

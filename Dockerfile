@@ -1,4 +1,4 @@
-FROM node:12-alpine as webbuilder
+FROM node:14-alpine as webbuilder
 
 COPY . /location
 RUN apk update \
