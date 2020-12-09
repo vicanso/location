@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"strings"
+
 	"github.com/vicanso/elton"
 	"github.com/vicanso/location/router"
 	"github.com/vicanso/location/service"
@@ -30,6 +32,12 @@ func (ctrl ipLocationCtrl) getLocation(c *elton.Context) (err error) {
 	if ipAddr == "127.0.0.1" {
 		ipAddr = c.RealIP()
 	}
+	// IPV6不支持
+	if strings.Contains(ipAddr, ":") {
+		c.Body = unknownIPLocation
+		return
+	}
+
 	ip, err := service.ConvertIP2Uint32(ipAddr)
 	if err != nil {
 		return
