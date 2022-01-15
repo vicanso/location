@@ -59,7 +59,7 @@ func main() {
 				zap.String("method", statsInfo.Method),
 				zap.String("uri", statsInfo.URI),
 				zap.Int("status", statsInfo.Status),
-				zap.String("consuming", statsInfo.Consuming.String()),
+				zap.String("latency", statsInfo.Latency.String()),
 				zap.String("size", humanize.Bytes(uint64(statsInfo.Size))),
 			)
 		},
